@@ -1,6 +1,11 @@
 package ioutils;
 
-import entities.*;
+import entities.Consumer;
+import entities.Distributor;
+import entities.EnergyType;
+import entities.Entity;
+import entities.EntityFactory;
+import entities.Producer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -57,8 +62,7 @@ public class InputReader {
             long initialBudget = (long) buffer.get(Constants.INITIALBUDGET);
             long monthlyIncome = (long) buffer.get(Constants.MONTHLYINCOME);
             Entity newConsumer = entityFactory
-                    .createEntity(Constants.CONSUMERS, readId,
-                            initialBudget, monthlyIncome, 0, 0, 0, "");
+                    .createEntity(Constants.CONSUMERS, initialBudget, monthlyIncome, readId);
             consumerList.add((Consumer) newConsumer);
         }
         return consumerList;
@@ -81,8 +85,8 @@ public class InputReader {
             long energyNeeded = (long) buffer.get(Constants.ENERGYNEEDEDKW);
             String strategy = (String) buffer.get(Constants.PRODUCERSTRATEGY);
             Entity newDistributor = entityFactory
-                    .createEntity(Constants.DISTRIBUTORS, readId, initialBudget,
-                            0, contractLength, initialInfrastructureCost, energyNeeded, strategy);
+                    .createEntity(Constants.DISTRIBUTORS, readId, contractLength, initialBudget,
+                            initialInfrastructureCost, energyNeeded, strategy);
             distributorList.add((Distributor) newDistributor);
 
         }
@@ -98,7 +102,7 @@ public class InputReader {
     public void getDistributorMonthlyUpdate(final int monthNumber,
                                             final ArrayList<Distributor> distList) {
         JSONObject thisMonth = (JSONObject) updates.get(monthNumber);
-        JSONArray distChanges = (JSONArray) thisMonth.get("distributorChanges");
+        JSONArray distChanges = (JSONArray) thisMonth.get(Constants.DISTRIBUTORCHANGES);
         if (distChanges.size() != 0) {
             for (Object object : distChanges) {
                 long distId = (long) ((JSONObject) object).get(Constants.ID);
@@ -125,20 +129,22 @@ public class InputReader {
                 long consBudget = (long) ((JSONObject) object).get(Constants.INITIALBUDGET);
                 long consIncome = (long) ((JSONObject) object).get(Constants.MONTHLYINCOME);
                 Consumer wantedConsumer = (Consumer) consumerFactory
-                        .createEntity(Constants.CONSUMERS, consId, consBudget, consIncome,
-                                0, 0, 0, "");
+                        .createEntity(Constants.CONSUMERS, consBudget, consIncome, consId);
                 consList.add(wantedConsumer);
             }
         }
     }
 
+    /**
+     * @return a list of all producers
+     */
     public ArrayList<Producer> createProducerList() {
         JSONArray array = (JSONArray) database.get(Constants.PRODUCERS);
         for (Object o : array) {
             JSONObject buffer = (JSONObject) o;
             long readId = (long) buffer.get(Constants.ID);
             String energyType = (String) buffer.get(Constants.ENERGYTYPE);
-            EnergyType energyType1 = null;
+            EnergyType energyType1;
             switch (energyType) {
                 case "WIND":
                     energyType1 = EnergyType.WIND;
@@ -155,17 +161,26 @@ public class InputReader {
                 case "NUCLEAR":
                     energyType1 = EnergyType.NUCLEAR;
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + energyType);
             }
             long maxDistributors = (long) buffer.get(Constants.MAXDISTRIBUTORS);
             double priceKW = (double) buffer.get(Constants.PRICEKW);
             long energyPerDistributor = (long) buffer.get(Constants.ENERGYPERDISTRIBUTOR);
-            Producer newProducer = new Producer(readId, energyType1, maxDistributors, priceKW, energyPerDistributor);
+            Producer newProducer = new Producer(readId, energyType1, maxDistributors,
+                    priceKW, energyPerDistributor);
             producerList.add(newProducer);
         }
         return producerList;
     }
 
 
+    /**
+     * @param monthNumber the number of the month
+     * @param prodList    a list of all the producers
+     *                    this function will update the producers
+     *                    if there have been any changes this monthNumber
+     */
     public void getProducerMonthlyUpdate(final int monthNumber,
                                          final ArrayList<Producer> prodList) {
         JSONObject thisMonth = (JSONObject) updates.get(monthNumber);
@@ -178,7 +193,8 @@ public class InputReader {
                         .get(Constants.ENERGYPERDISTRIBUTOR);
                 prodList.get((int) prodId).setEnergyPerDistributor(energyPerDistributor);
                 prodList.get((int) prodId).setHasChanged(true);
-                prodList.get((int) prodId).warnDistributors(prodList.get((int) prodId).isHasChanged());
+                prodList.get((int) prodId).warnDistributors(prodList.get((int) prodId)
+                        .isHasChanged());
                 prodList.get((int) prodId).setHasChanged(false);
             }
         }

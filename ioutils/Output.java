@@ -84,11 +84,11 @@ public class Output {
             object3.put(Constants.MONTHLYSTATS, array2);
             prodArray.add(object3);
         }
-        JSONObject wantedoutput = new JSONObject();
-        wantedoutput.put(Constants.CONSUMERS, consArray);
-        wantedoutput.put(Constants.DISTRIBUTORS, distArray);
-        wantedoutput.put(Constants.ENERGYPRODUCERS, prodArray);
-        return wantedoutput;
+        JSONObject wantedOutput = new JSONObject();
+        wantedOutput.put(Constants.CONSUMERS, consArray);
+        wantedOutput.put(Constants.DISTRIBUTORS, distArray);
+        wantedOutput.put(Constants.ENERGYPRODUCERS, prodArray);
+        return wantedOutput;
     }
 
     /**

@@ -7,12 +7,12 @@ import java.util.TreeMap;
 
 public final class Producer extends Observable {
 
+    private final TreeMap<Long, ArrayList<Long>> monthlyDistributors;
     private long id;
     private EnergyType energyType;
     private long maxDistributors;
     private double priceKW;
     private long energyPerDistributor;
-    private final TreeMap<Long, ArrayList<Long>> monthlyDistributors;
     private boolean hasChanged;
     private long actualDistributors;
 
@@ -85,14 +85,12 @@ public final class Producer extends Observable {
     }
 
     /**
-     *
-     * @param needsChange
+     * @param needsChange boolean which will tell whether the producer's price has changed
      */
     public void warnDistributors(final boolean needsChange) {
         setChanged();
         notifyObservers(needsChange);
     }
-
 
     public long getActualDistributors() {
         return actualDistributors;

@@ -7,7 +7,8 @@ import java.util.Comparator;
 
 public final class GreenStrategy implements EnergyStrategy {
 
-    Comparator<Producer> comparator = Comparator.comparing(Producer::getEnergyType, Comparator.reverseOrder())
+    private final Comparator<Producer> comparator = Comparator.comparing(Producer::getEnergyType,
+            Comparator.reverseOrder())
             .thenComparing(Producer::getPriceKW)
             .thenComparing(Producer::getEnergyPerDistributor, Comparator.reverseOrder())
             .thenComparing(Producer::getId);

@@ -130,27 +130,20 @@ public final class Utilities {
                     if (consumer.getNumMonths() == 0) {
                         if (consumer.getOldDist() == consumer.getCurrentDist()) {
                             Distributor curDist = distributors.get((int) consumer.getCurrentDist());
-                            if (consumer.getBudget() >= consumer.getPriceToPay() + consumer.getRestanta()) {
-                                consumer.setBudget(consumer.getBudget() - consumer.getPriceToPay() - consumer.getRestanta());
+                            if (consumer.getBudget() >= consumer.getPriceToPay()
+                                    + consumer.getRestanta()) {
+                                consumer.setBudget(consumer.getBudget()
+                                        - consumer.getPriceToPay() - consumer.getRestanta());
                                 consumer.setPostpone(false);
                                 consumer.setRestanta(0);
                                 consumer.setOldDist(-1);
-                                curDist.setBudget(curDist.getBudget() + consumer.getPriceToPay() + consumer.getRestanta());
+                                curDist.setBudget(curDist.getBudget()
+                                        + consumer.getPriceToPay() + consumer.getRestanta());
                             } else {
                                 consumer.setBankrupt(true);
                             }
                         } else {
-                            Distributor curDist = distributors.get((int) consumer.getCurrentDist());
                             Distributor oldDist = distributors.get((int) consumer.getOldDist());
-//                            if (consumer.getBudget() >= consumer.getPriceToPay() + consumer.getRestanta()){
-//                                curDist.setBudget(curDist.getBudget() + consumer.getPriceToPay());
-//                                oldDist.setBudget(oldDist.getBudget() + consumer.getRestanta());
-//                                consumer.setBudget(consumer.getBudget() - consumer.getPriceToPay() - consumer.getRestanta());
-//                                consumer.setPostpone(false);
-//                                consumer.setRestanta(0);
-//                                consumer.setOldDist(-1);
-//                            }
-                            //else
                             if (consumer.getBudget() > consumer.getRestanta()) {
                                 oldDist.setBudget(oldDist.getBudget() + consumer.getRestanta());
                                 final double x = 1.2;
@@ -162,8 +155,10 @@ public final class Utilities {
                             }
                         }
                     } else {
-                        if (consumer.getBudget() >= consumer.getPriceToPay() + consumer.getRestanta()) {
-                            consumer.setBudget(consumer.getBudget() - consumer.getPriceToPay() - consumer.getRestanta());
+                        if (consumer.getBudget() >= consumer.getPriceToPay()
+                                + consumer.getRestanta()) {
+                            consumer.setBudget(consumer.getBudget() - consumer.getPriceToPay()
+                                    - consumer.getRestanta());
                             Distributor curDist = distributors.get((int) consumer.getCurrentDist());
                             curDist.setBudget(curDist.getBudget() + consumer.getPriceToPay());
                             Distributor oldDist = distributors.get((int) consumer.getOldDist());
@@ -188,74 +183,6 @@ public final class Utilities {
                         consumer.setOldDist(consumer.getCurrentDist());
                     }
                 }
-
-
-                //                if (consumer.isPostpone() && consumer.getNumMonths() == 0) {
-//                    if (consumer.getOldDist() == consumer.getCurrentDist()) {
-//                        if (consumer.getBudget() >= consumer.getPriceToPay() + consumer.getRestanta()) {
-//                            Distributor paidDistributor = distributors.get((int) consumer.getCurrentDist());
-//                            paidDistributor.setBudget(paidDistributor.getBudget()
-//                                    + consumer.getPriceToPay() + consumer.getRestanta());
-//                            consumer.setBudget(consumer.getBudget()
-//                                    - consumer.getPriceToPay() - consumer.getRestanta());
-//                            consumer.setRestanta(0);
-//                            consumer.setOldDist(-1);
-//                            consumer.setPostpone(false);
-//                        } else {
-//                            consumer.setBankrupt(true);
-//                        }
-//                    } else {
-//                        if (consumer.getBudget() >= consumer.getRestanta() + consumer.getPriceToPay()) {
-//                            Distributor paidDistributor = distributors.get((int) consumer.getCurrentDist());
-//                            Distributor oldDistributor = distributors.get((int) consumer.getOldDist());
-//                            paidDistributor.setBudget(paidDistributor.getBudget()
-//                                    + consumer.getPriceToPay());
-//                            oldDistributor.setBudget(oldDistributor.getBudget()
-//                                    + consumer.getRestanta());
-//                            consumer.setBudget(consumer.getBudget()
-//                                    - consumer.getPriceToPay() - consumer.getRestanta());
-//                            consumer.setRestanta(0);
-//                            consumer.setOldDist(-1);
-//                            consumer.setPostpone(false);
-//                        } else if (consumer.getBudget() >= consumer.getRestanta()) {
-//                            Distributor oldDistributor = distributors.get((int) consumer.getOldDist());
-//                            oldDistributor.setBudget(oldDistributor.getBudget()
-//                                    + consumer.getRestanta());
-//                            consumer.setBudget(consumer.getBudget()
-//                                    - consumer.getRestanta());
-//                            final double x = 1.2;
-//                            consumer.setRestanta(Math.round(Math.floor(
-//                                    (double) consumer.getPriceToPay() * x)));
-//                            consumer.setOldDist(consumer.getCurrentDist());
-//                        } else {
-//                            consumer.setBankrupt(true);
-//                        }
-//                    }
-//                } else {
-//                    Distributor distributor = distributors.get((int) consumer.getCurrentDist());
-//                    if (consumer.getBudget() >= consumer.getPriceToPay() + consumer.getRestanta()) {
-//                        distributor.setBudget(distributor.getBudget() + consumer.getPriceToPay());
-//                        consumer.setBudget(consumer.getBudget() - consumer.getPriceToPay());
-//                        if (consumer.getOldDist() != -1) {
-//                            Distributor distributorRestant = distributors
-//                                    .get((int) consumer.getOldDist());
-//                            distributorRestant.setBudget(distributorRestant.getBudget()
-//                                    + consumer.getRestanta());
-//                            consumer.setBudget(consumer.getBudget() - consumer.getRestanta());
-//                            consumer.setRestanta(0);
-//                            consumer.setOldDist(-1);
-//                            consumer.setPostpone(false);
-//                        }
-//                    } else if (!consumer.isPostpone()) {
-//                        final double x = 1.2;
-//                        consumer.setRestanta(Math.round(Math.floor(
-//                                (double) consumer.getPriceToPay() * x)));
-//                        consumer.setOldDist(consumer.getCurrentDist());
-//                        consumer.setPostpone(true);
-//                    } else {
-//                        consumer.setBankrupt(true);
-//                    }
-//                }
             }
         }
     }
@@ -276,35 +203,56 @@ public final class Utilities {
         }
     }
 
-    public void distributorProductionCost(Distributor distributor, ArrayList<Producer> producers) {
+    /**
+     * @param distributor a specific distributor
+     * @param producers   the list of all producers
+     *                    calculates the production cost of the wanted Distributor
+     */
+    public void distributorProductionCost(final Distributor distributor,
+                                          final ArrayList<Producer> producers) {
         long productionCost = 0;
         for (Long x : distributor.getProducerIds()) {
             Producer wantedProducer = findProducer(producers, x);
-            productionCost += wantedProducer.getEnergyPerDistributor() *
-                    wantedProducer.getPriceKW();
+            productionCost += wantedProducer.getEnergyPerDistributor()
+                    * wantedProducer.getPriceKW();
         }
-        productionCost = Math.round(Math.floor(productionCost / 10));
+        final int ten = 10;
+        productionCost = Math.round(Math.floor(productionCost / ten));
         distributor.setProductionCost(productionCost);
     }
 
-    public void setProductionCosts(ArrayList<Distributor> distributors, ArrayList<Producer> producers) {
+    /**
+     * @param distributors a list of all Distributors
+     * @param producers    a list of all producers
+     */
+    public void setProductionCosts(final ArrayList<Distributor> distributors,
+                                   final ArrayList<Producer> producers) {
         for (Distributor distributor : distributors) {
             distributorProductionCost(distributor, producers);
         }
     }
 
-
-    public void assignProducers(Distributor distributor, ArrayList<Producer> producers,
-                                EnergyChoiceFactory energyChoiceFactory) {
-        EnergyStrategy strategy = energyChoiceFactory.createStrategy(distributor.getProducerStrategy());
+    /**
+     * @param distributor         a certain distributor
+     * @param producers           a list of all producers
+     * @param energyChoiceFactory a factory for the Energy Choice
+     *                            assigns the distributor its producers,
+     *                            based on its the Energy Strategy
+     */
+    public void assignProducers(final Distributor distributor,
+                                final ArrayList<Producer> producers,
+                                final EnergyChoiceFactory energyChoiceFactory) {
+        EnergyStrategy strategy = energyChoiceFactory
+                .createStrategy(distributor.getProducerStrategy());
         strategy.sortProducer(producers);
         distributor.getProducerIds().clear();
         distributor.setResetProducers(false);
         distributor.setTotalEnergy(0);
         for (Producer producer : producers) {
-            if (distributor.getTotalEnergy() < distributor.getEnergyNeededKW() &&
-                    producer.getActualDistributors() < producer.getMaxDistributors()) {
-                distributor.setTotalEnergy(distributor.getTotalEnergy() + producer.getEnergyPerDistributor());
+            if (distributor.getTotalEnergy() < distributor.getEnergyNeededKW()
+                    && producer.getActualDistributors() < producer.getMaxDistributors()) {
+                distributor.setTotalEnergy(distributor.getTotalEnergy()
+                        + producer.getEnergyPerDistributor());
                 producer.addObserver(distributor);
                 producer.setActualDistributors(producer.getActualDistributors() + 1);
                 distributor.getProducerIds().add(producer.getId());
@@ -312,12 +260,19 @@ public final class Utilities {
         }
     }
 
-    public void resetObservers(ArrayList<Producer> producers, ArrayList<Distributor> distributors) {
+    /**
+     * @param producers    a list of all producers
+     * @param distributors a list of all distributors
+     *                     remakes the connections between observer and observable
+     */
+    public void resetObservers(final ArrayList<Producer> producers,
+                               final ArrayList<Distributor> distributors) {
         for (Producer producer : producers) {
             producer.setActualDistributors(0);
             producer.deleteObservers();
             for (Distributor distributor : distributors) {
-                if (distributor.getProducerIds().contains(producer.getId()) && !distributor.isResetProducers()) {
+                if (distributor.getProducerIds().contains(producer.getId())
+                        && !distributor.isResetProducers()) {
                     producer.setActualDistributors(producer.getActualDistributors() + 1);
                     producer.addObserver(distributor);
                 }
@@ -325,8 +280,15 @@ public final class Utilities {
         }
     }
 
-    public void assignAllProducers(ArrayList<Distributor> distributors, ArrayList<Producer> producers,
-                                   EnergyChoiceFactory energyChoiceFactory) {
+    /**
+     * @param distributors        a list of all distributors
+     * @param producers           a list of all producers
+     * @param energyChoiceFactory a factory for the energy strategy
+     *                            assigns to every distributor in the list its producers
+     */
+    public void assignAllProducers(final ArrayList<Distributor> distributors,
+                                   final ArrayList<Producer> producers,
+                                   final EnergyChoiceFactory energyChoiceFactory) {
         for (Distributor distributor : distributors) {
             if (distributor.isResetProducers() && !distributor.isBankrupt()) {
                 assignProducers(distributor, producers, energyChoiceFactory);
@@ -334,9 +296,17 @@ public final class Utilities {
         }
     }
 
-    public void getMonthlyStats(final ArrayList<Producer> producers, final ArrayList<Distributor> distributors, long monthNumber) {
+    /**
+     * @param producers    a list of all producers
+     * @param distributors a list of all distributors
+     * @param monthNumber  the month we are in
+     *                     memorizes the connections between distributor
+     *                     and producer in the specified month
+     */
+    public void getMonthlyStats(final ArrayList<Producer> producers,
+                                final ArrayList<Distributor> distributors, long monthNumber) {
         for (Producer producer : producers) {
-            producer.getMonthlyDistributors().put(monthNumber, new ArrayList<Long>());
+            producer.getMonthlyDistributors().put(monthNumber, new ArrayList<>());
             for (Distributor distributor : distributors) {
                 if (distributor.getProducerIds().contains(producer.getId())) {
                     producer.getMonthlyDistributors().get(monthNumber).add(distributor.getId());
@@ -345,7 +315,14 @@ public final class Utilities {
         }
     }
 
-    public void resetDistList(final ArrayList<Producer> producers, final ArrayList<Distributor> distributors) {
+    /**
+     * @param producers    a list of all producers
+     * @param distributors a list of all distributors
+     *                     resets both the distributors' producers and
+     *                     the producers' distributors, if needed
+     */
+    public void resetDistList(final ArrayList<Producer> producers,
+                              final ArrayList<Distributor> distributors) {
         for (Producer producer : producers) {
             if (producer.isHasChanged()) {
                 for (Distributor distributor : distributors) {
@@ -360,9 +337,9 @@ public final class Utilities {
     }
 
     /**
-     * @param producers
-     * @param id
-     * @return
+     * @param producers a list of all producers
+     * @param id        the producer's id
+     * @return the wanted producer
      */
     public Producer findProducer(final ArrayList<Producer> producers, final long id) {
         Producer wantedProducer = null;
@@ -374,7 +351,11 @@ public final class Utilities {
         return wantedProducer;
     }
 
-    public void makePricesHistory(ArrayList<Distributor> distributors) {
+    /**
+     * @param distributors a list of all distributors
+     *                     makes a list of the distributor's contract price every month
+     */
+    public void makePricesHistory(final ArrayList<Distributor> distributors) {
         for (Distributor distributor : distributors) {
             distributor.getPricesHistory().add(distributor.contractPrice());
         }

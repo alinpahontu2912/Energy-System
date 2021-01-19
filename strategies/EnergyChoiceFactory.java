@@ -5,8 +5,7 @@ public class EnergyChoiceFactory {
     private static EnergyChoiceFactory energyChoiceFactory = null;
 
     /**
-     *
-     * @return
+     * @return an instance of the energy factory
      */
     public static EnergyChoiceFactory getInstance() {
         if (energyChoiceFactory == null) {
@@ -16,9 +15,8 @@ public class EnergyChoiceFactory {
     }
 
     /**
-     *
-     * @param type
-     * @return
+     * @param type the type of strategy to be made
+     * @return the type of strategy wanted
      */
     public EnergyStrategy createStrategy(String type) {
         EnergyStrategy strategy;

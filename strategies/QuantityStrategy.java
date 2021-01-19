@@ -7,7 +7,9 @@ import java.util.Comparator;
 
 public final class QuantityStrategy implements EnergyStrategy {
 
-    Comparator<Producer> comparator = Comparator.comparing(Producer::getEnergyPerDistributor, Comparator.reverseOrder())
+    private final Comparator<Producer> comparator = Comparator
+            .comparing(Producer::getEnergyPerDistributor,
+            Comparator.reverseOrder())
             .thenComparing(Producer::getId);
 
     @Override

@@ -15,27 +15,19 @@ public class EntityFactory {
     }
 
     /**
-     * @param type               type of entity to be created
-     * @param id                 id of the entity to be created
-     * @param budget             budget of the entity to be created
-     * @param income             income of the entity to be created
-     * @param contractLength     only usable if entity is distributor
-     * @param infrastructurecost only usable if entity is distributor
-     * @param energyNeeded       only usable if entity is distributor
-     * @param strategy           only usable if entity is distributor
-     * @return a new entity
+     * @param type type of entity to be created
+     * @param args variable arguments, depending on the element to be created
+     * @return a new Entity of type 'type'
      */
-    public Entity createEntity(final String type, final long id, final long budget,
-                               final long income, final long contractLength,
-                               final long infrastructurecost, final long energyNeeded, final String strategy) {
+    public final Entity createEntity(final String type, Object... args) {
         Entity entity;
         switch (type) {
             case "consumers":
-                entity = new Consumer(budget, income, id);
+                entity = new Consumer((long) args[0], (long) args[1], (long) args[2]);
                 break;
             case "distributors":
-                entity = new Distributor(id, contractLength, budget,
-                        infrastructurecost, energyNeeded, strategy);
+                entity = new Distributor((long) args[0], (long) args[1], (long) args[2],
+                        (long) args[3], (long) args[4], (String) args[5]);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);

@@ -19,7 +19,8 @@ public final class Distributor extends Entity implements Observer {
     private ArrayList<Long> pricesHistory;
 
     public Distributor(final long id, final long contractLength, final long budget,
-                       final long infrastructureCost, final long energyNeededKW, final String producerStrategy) {
+                       final long infrastructureCost, final long energyNeededKW,
+                       final String producerStrategy) {
         this.id = id;
         this.contractLength = contractLength;
         this.budget = budget;
